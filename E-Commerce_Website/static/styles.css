@@ -1,0 +1,71 @@
+/*All*/
+body {
+  background-color:#EAE7E2
+}
+#logo {
+  width:75px; 
+  height:30px;
+}
+
+/*Home*/
+.thumbnail {
+  margin-top:80px;
+  width: 80%;
+  height: 200px;
+}
+.row {
+  background-color: #CACFD2; 
+  margin:10px 100px 10px 100px;
+}
+.ad {
+  display: inline-block;
+}
+hr {
+  border: 0.5px solid black
+}
+
+/*Single Product*/
+.basket {
+  display: inline-block; 
+  position:sticky; 
+  padding-right:10px; 
+  padding-left:10px; 
+  border-style: solid; 
+  border-width: 1px; 
+  background-color: #acc0b5;
+  margin-left:10px;
+}
+img {
+  object-fit: contain;
+}
+.box1 {
+  margin:100px 150px 0px 110px; 
+  padding: 10px 0px 10px 0px; 
+  background-color: #a2a2a2;
+}
+/*Cart*/
+.cart-table {
+  display: inline-block; 
+  border-style: solid; 
+  border-width: 1px; 
+  margin-left: 25px; 
+  background-color: #acc0b5;
+}
+
+/*Checkout*/
+.checkout-basket{
+  margin-left: 100px;
+  width:700px; 
+  display: inline-block; 
+  border-style: solid; 
+  border-width: 1px; 
+  padding:10px; 
+
+}
+
+/*Success*/
+.success-basket {
+  width: 350px; 
+  margin-left: 10px; 
+  text-align: left;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <link rel="stylesheet" type="text/css" href="Personal.css" >
+    <title>Ya Qing Wu</title>
+</head>
+
+<div class="box" style="background-color: rgb(0, 0, 0);   ">
+    <h1 class="name">Ya Qing <br>Wu</h1>
+    <div style="text-align:right;">
+        <img class="profile-image" src="images/ProfileImage.png" alt="profile image">
+    </div> 
+</div>
+
+<body>
+    <div class="information">
+        <div class="tab-titles">
+            <p class="tab-links active-link" onclick="opentab('About')">About</p>
+            <p class="tab-links " onclick="opentab('Education')">Education</p>
+            <p class="tab-links " onclick="opentab('Expereince')">Experience</p>
+            <p class="tab-links" onclick="opentab('Contact')">Contact</p>
+        </div>
+
+        <div class="tab-contents active-tab" id="About">
+            <p>Currently a second-year student pursuing a degree in computer science, 
+                passionate about technology and eager to apply my skills. I am polite, kind, 
+                and have a strong sense of integrity. I can adapt to any situation and 
+                adhere to strict deadlines. I have strong problem-solving and transferable skills. 
+                Excited to contribute to innovative projects and learn from industry professionals. 
+                Looking for an opportunity to gain hands-on experience and make a meaningful impact 
+                in the technology industry.  
+            </p>
+            <br>
+            <h4 style="line-height: 1%">Hobbies and Interests</h4>
+            <ul>
+                <li>Puzzles</li>
+                <li>Art - Drawing</li>
+                <li>Photography</li>
+                <li>Journaling</li>
+            </ul>
+            <br>
+            <h4 style="line-height: 1%">References</h4>
+            Available upon request
+        </div>
+
+        <div class="tab-contents" id="Education">
+            <div>
+                <h4 style="line-height: 1%">BSc Computer Science</h4>
+                Cardiff University | September 2022 - Present 
+                <br>
+                Predicted grade: 1st class honours
+                <br>
+                Relevant Courses:
+                <ul>
+                    <li>Comutational Thinking - Group Project: Created a text based escape room using Python</li>
+                    <li>Web Applications - Created fake e-commerce website using HTML, CSS, and MySQL</li>
+                    <li>Database Systems - Gained basic understanding of database system technology</li>
+                </ul>
+                <br>
+                <h4 style="line-height: 1%">A - Levels</h4>
+                St Teilo's Church in Wales Sixth Form | September 2020 - August 2022
+                <ul>
+                    <li>Psychology (A*)</li>
+                    <li>Criminology (A)</li>
+                    <li>History (A)</li>
+                    <li>Welsh Baccalaureate (A)</li>
+                </ul>
+                <br>
+                <h4 style="line-height: 1%">GCSE</h4>
+                St Teilo's Church in Wales High School | September 2018 - August 2020
+                <br>
+                9 GCSE's grade A - C, including Maths(A), English(B)
+            </div>
+                
+        </div>
+        <div class="tab-contents " id="Expereince">
+            <div style="line-height: 120%;">
+                <div style="display: flex;">
+                    <div style="float:left; width:70%;">
+                        <h3 style="line-height: 1%;">Technical (IT) Skills</h3>
+                        <h4>Languages: Intermediate to Basic</h4>
+                        <ul>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>Python</li>
+                            <li>Java</li>
+                            <li>SQL</li>
+                            <li>JavaScript</li>
+                            <li>C#</li>
+                        </ul>
+                    </div>
+                    <div style=" float:right; width:30%;">
+                        <h3 style="line-height: 1%;">Skills</h3>
+                        <ul>
+                            <li>TeamWork</li>
+                            <li>Problem Solving</li>
+                            <li>Active Listening</li>
+                            <li>Organisational</li>
+                            <li>Time Management</li>
+                            <li>Autonomy</li>
+                        </ul>
+                    </div>
+                </div>
+                <h4>Certificates</h4>
+                <ul>
+                    <li>HTML, CSS, Python - Sololearn</li>
+                    <li>Foundational C# with Microsoft - freeCodeCamp (In-Progress)</li>
+                    <li>Responsive Web Design freeCodeCamp (In-Progress)</li>
+                    <li>JavaScript Algorithm and Data Structures - freeCodeCamp (In-Progress)</li>
+                </ul>
+                <br>
+                <h3 style="line-height: 1%">Volunteer Experience and Attended Events</h3>
+                <h4>Volunteer, Tenovus Cancer Care</h4>
+                <p style="line-height: 1%">Retail and Warehouse | September 2023 - Present</p>
+                <ul>
+                    <li>Assisted with providing the highest level of customer service</li>
+                    <li>Maintained store standards with stock management</li>
+                    <li>Responsive Web Design freeCodeCamp (In-Progress)</li>
+                    <li>Improved skills - Communication, Teamwork, Problem-Solving, and Adaptability</li>
+                </ul>
+                <h4>Attended IT's Not Just For The Boys by targetjobs</h4>
+                <p>Able to network with organisations in tech, learned from experienced professionals, and took part in team challenge</p>
+            </div>
+        </div>
+        <div class="tab-contents"id="Contact">
+            <h3>Personal Information</h3>
+            <h4>Email (Preferred)</h4>
+            <p>Yawu2@icloud.com</p>
+            <br>
+            <h4>Phone Number</h4>
+            <p>07426044037</p>
+            <br>
+            <h4>Location</h4>
+            <p>Cardiff, United Kingdom</p>
+            <br>
+            <h4>LinkedIn Profile</h4>
+            <p>
+                <a href="https://www.linkedin.com/in/yaqing-wu">https://www.linkedin.com/in/yaqing-wu</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+<script>
+    var tablinks = document.getElementsByClassName("tab-links")
+    var tabcontents = document.getElementsByClassName("tab-contents")
+    function opentab(tabname){
+        for(tablelink of tablinks){
+            tablelink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab")
+    }
+
+</script>
+</html>
