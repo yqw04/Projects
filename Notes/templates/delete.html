@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Note</title>
+</head>
+
+<!-- Navigation bar -->
+<body>
+    <div class="sidenav">
+        <ul>
+            <li>
+                <div class="sidenav_item">
+                    <span>🏠</span>
+                    <a href="{{ url_for('home') }}" >Home</a>
+                </div>
+            </li>
+
+            <hr>
+            <p class="sidenav_tags">Tags:</p>
+            <!-- Able to click on tag to show only notes with that tag -->
+            {% for tag in tags %}
+            <li>
+                <div class="sidenav_item">
+                    <span>🏷</span>
+                    <a href="{{ url_for('filter_by_tag', tag_name=tag.name) }}" >{{ tag.name }}</a>
+                </div>
+            </li>
+            {% endfor %}
+            <hr>
+
+            <li>
+                <div class="sidenav_item">
+                    <span>🗑</span>
+                    <a href="{{ url_for('delete_page') }}">Trash</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="title">
+        <h1>Delete</h1>
+    </div>
+
+    <!-- Shows deleted notes -->
+    <div class="notes">
+        {% for notes in note %}
+        <div>
+            <element class='popup_element' onclick="togglePopup('{{ notes.note_id }}')">
+                <div class="current_notes {{ notes.note_color }}-note" style="position: relative;">
+                    <h2>{{ notes.note_name }}</h2>
+                    <p class="note_text">{{ notes.note_text }}</p>
+                    <div class="note_details">
+                        <p>{{ notes.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <div class="tags-container">
+                            {% for tag in notes.tags %}
+                                <div class="tag">#{{ tag.name }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </element>
+
+            <!-- Shows more information about the deleted notes -->
+            <div class="popup" id="popup-{{ notes.note_id }}">
+                <div class="popup-overlay"></div>
+                <div class="popup-content {{ notes.note_color }}-note">
+                    <button class="popup-close-btn" onclick="togglePopup('{{ notes.note_id }}')">&times;</button>
+                    <div class="popup-info">
+                        <form action="" method="POST">
+                            <h2>{{ notes.note_name }}</h2>
+                            <p>{{ notes.note_text }}</p>
+                        </form>
+                        <p>{{ notes.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <div class="tags-container">
+                            {% for tag in notes.tags %}
+                                <div class="tag">#{{ tag.name }}</div>
+                            {% endfor %}
+                        </div>
+                        <!-- Ability to permanently delete and restore note -->
+                        <form action="{{ url_for('perm_delete', note_id=notes.note_id) }}" method="post">
+                            <input type="submit" value="Permanently Delete">
+                        </form>
+                        <form action="{{ url_for('restore', note_id=notes.note_id) }}" method="post">
+                            <input type="submit" value="Restore">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
