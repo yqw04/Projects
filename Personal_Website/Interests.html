@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="script.js"></script>
+    <title>Yaqing Wu</title>
+    </head>
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="About.html"><i class="material-icons">person</i>About</a></li>
+                <li><a href="Education.html"><i class="material-icons">school</i>Education</a></li>
+                <li><a href="Skills.html"><i class="material-icons">build</i>Skills</a></li> 
+                <li><a href="Interests.html"><i class="material-icons">bookmark</i>Interests</a></li> 
+            </ul>
+        </nav>
+
+        <div class="title-box">
+            <h1 class = "title">Interests</h1>
+        </div>
+
+        <div class="info-box">
+            <div class="tab-titles">
+                <p class="tab-links active-link" onclick="opentab('About')">Hobbies</p>
+                <p class="tab-links" onclick="opentab('Education')">Experience</p>
+                <p class="tab-links" onclick="opentab('Personal-Project')">Personal Projects</p>
+            </div>
+    
+            <div class="tab-contents active-tab" id="About">
+                <div class="hobbies-img-container">
+                    <div class="art-img1" >
+                        <img src="Images/ArtImg1.png" alt="Art drawing 1">
+                    </div>
+                    <div class="art-img2">
+                        <img src="Images/ArtImg2.png" alt="Art drawing 2">
+                    </div>
+                </div>
+                <h3>Art</h3>
+                <p>Example of drawings I have done can be seen to the right </p>
+                <p>Various skills can be developed through art, for instance:</p>
+                <ul>
+                    <li>Patience</li>
+                    <li>Attention to detail</li>
+                    <li>Concentration</li>
+                    <li>Planning</li>
+                </ul>
+                <div class="hobbies">
+                    <div class="hobbies-puzzle">
+                        <h3>Puzzles</h3>
+                        <p>Various skills can be developed through completing puzzles, for instance:</p>
+                        <ul>
+                            <li>Problem Solving</li>
+                            <li>Logical Thinking</li>
+                            <li>Perseverence</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Journaling</h3>
+                        <p>Various skills can be developed through journaling, for instance:</p>
+                        <ul>
+                            <li>Organisation</li>
+                            <li>Creativity</li>
+                            <li>Written Communication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="tab-contents" id="Education">       
+                <h2>Volunteer Experience</h2>
+                <p>Tenovus Cancer Care</p>
+                <p>Retail and Warehouse</p>
+                <ul>
+                    <li>Assisted with providing the highest level of customer service.</li>
+                    <li>Maintained store standards with stock management.</li>
+                    <li>Improved skills – communication, teamwork, problem-solving and
+                        adaptability.</li>
+                </ul>
+            </div>
+    
+            <div class="tab-contents" id="Personal-Project">       
+                <div class="personal-project" onclick="togglePopup(1)">
+                    <div class="project-name">
+                        <h2 class="project-name-title">Personal Website</h2>
+                    </div>
+                    <div class="project-name-info">
+                        <p>You're currently on this project</p>
+                    </div>
+                    <p class="project-more-info">Click to see more</p>
+                </div>
+
+                <div class="personal-project" onclick="togglePopup(2)">
+                    <div class="project-name">
+                        <h2 class="project-name-title">Notes Website</h2>
+                    </div>
+                    <div class="project-name-info">
+                        <p>A website to keep track of notes</p>
+                    </div>
+                    <p class="project-more-info">Click to see more</p>
+                </div>
+
+                <div class="personal-project" onclick="togglePopup(3)">
+                    <div class="project-name">
+                        <h2 class="project-name-title">Mini Games</h2>
+                    </div>
+                    <div class="project-name-info">
+                        <p>A series of user interactive games</p>
+                    </div>
+                    <p class="project-more-info">Click to see more</p>
+                </div>
+
+                <div class="popup" id="popup-1">
+                    <div class="overlay"></div>
+                    <div class="content">
+                        <div class="close-btn" onclick="togglePopup(1)">&times;</div>
+                        <h1>Personal Website</h1>
+                        <p>Created a website which includes more information about myself</p>
+                        <p>Features: Pages - Home, About, Education, Skills, and Interests</p>
+                        <p>Used HTML, CSS, JavaScript</p>
+                    </div>
+                </div>
+
+                <div class="popup" id="popup-2">
+                    <div class="overlay"></div>
+                    <div class="content">
+                        <div class="close-btn" onclick="togglePopup(2)">&times;</div>
+                        <h1>Notes Website</h1>
+                        <p>Created a user-friendly website which allows users to display notes</p>
+                        <p>Features: Allow users to add and delete notes, select the colour of the note, 
+                            and add tags to their notes. The tags are displayed in the navigation bar, enabling 
+                            users to click on a specific tag to filter and view only the notes associated with that tag.
+                        </p>
+                        <p>Used Python, HTML, CSS, JavaScript, SQL</p>
+                    </div>
+                </div>
+                
+                <div class="popup" id="popup-3">
+                    <div class="overlay"></div>
+                    <div class="content">
+                        <div class="close-btn" onclick="togglePopup(3)">&times;</div>
+                        <h1>Mini Games</h1>
+                        <p>Created some user interactive games</p>
+                        <p>This includes: <br> Rock, Paper, Scissors 
+                                        <br> Math's Quiz
+                                        <br> Guess the Word
+                                        <br> Guess the Number
+                        </p>
+                        <p>These games allow users to input commands in the terminal, which then trigger 
+                            the next steps depending on the game's logic. </p>
+                        <p>Used Python</p>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </body>
+</html>
+    

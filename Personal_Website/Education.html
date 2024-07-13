@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">z
+        <script src="script.js"></script>
+        <title>Yaqing Wu</title>
+    </head>
+
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="About.html"><i class="material-icons">person</i>About</a></li>
+                <li><a href="Education.html"><i class="material-icons">school</i>Education</a></li>
+                <li><a href="Skills.html"><i class="material-icons">build</i>Skills</a></li> 
+                <li><a href="Interests.html"><i class="material-icons">bookmark</i>Interests</a></li> 
+            </ul>
+        </nav>  
+
+        <div class="title-box">
+            <h1 class="title">Education</h1>
+        </div>
+
+        <div class="current-education">
+            <h1>Current Education</h1>
+            <div class="university">
+                <div class="university-year" onclick="toggleDescription('university-year1')">
+                    <p>1st Year</p>
+                </div>
+                <div class="university-year" onclick="toggleDescription('university-year2')">
+                    <p>2nd Year</p>
+                </div>
+                <div class="university-year" onclick="toggleDescription('university-year-projects')">
+                    <p>Projects</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="university-modules">
+                <div id="university-year1" class="year-modules">
+                    <h2>1st Year Modules</h2>
+                    <div class="grade-key">
+                        <div class="grade grade-1"></div>
+                        <p>1st</p>
+                        <div class="grade grade-2-1"> </div>
+                        <p>2:1</p>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4 >Architecture and Operating Systems</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Obtained a broad understanding of the operation of modern computers and 
+                                    overview of the purpose and key features of modern operating systems.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Maths for Computer Science</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Gained an understanding of how various mathematical techniques and knowledge 
+                                    are used to analyse, and solve problems in computing.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules ">
+                        <div>
+                            <div class="module-title">
+                                <h4>Object Oriented Java Programming</h4>
+                            </div>
+                            <div class="module-details grade-2-1">
+                                <p>Gained fundamental programming and problem-solving skills necessary to develop 
+                                    an understanding of Object Oriented Programming.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Web Applications</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Enhanced my practical skills, knowledge, and understanding that are needed to 
+                                    create modern web applications.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title" style="margin-top: -15px;">
+                                <h4>Principles, Tools and Techniques for Secure Software Engineering</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Introduced to software engineering principles and practices that are needed to 
+                                    develop software-intensive systems.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Computational Thinking</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Introduced to some of the fundamentals of computing, explores applications of 
+                                    computing, and develops the relevant intellectual and learning skills.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4 >Problem Solving with Python</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Provided with the mathematical theory necessary to model problems and the 
+                                    programming skills necessary to implement efficient solutions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="university-year2" class="year-modules" style="display: none;">
+                    <h2>2nd Year Modules</h2>
+                    <div class="grade-key">
+                        <div class="grade grade-1"></div>
+                        <p>1st</p>
+                        <div class="grade grade-2-1"> </div>
+                        <p>2:1</p>
+                        <div class="grade grade-2-2"> </div>
+                        <p>2:2</p>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Human Computer Interaction</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Introduced to the principles and concepts of HCI to enable the design of 
+                                    multimodal systems that effectively meet human needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Informatics</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Gained an understanding of the role of data mining and data quality techniques. 
+                                    Analyse and critically evaluate methods for assuring quality of information </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Introduction to the Theory of Computation</h4>
+                            </div>
+                            <div class="module-details grade-2-1">
+                                <p>Gained proficiency in proving mathematical properties, understanding classical 
+                                    logic, and basic complexity theory concepts</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Internet of Things</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Developed an understanding of how to design and develop an IoT system covering the 
+                                    end-to-end IoT systems design and development process.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Group Project</h4>
+                            </div>
+                            <div class="module-details grade-2-1">
+                                <p>Understanding of a professional approach towards developing integrated computational 
+                                    systems through identifying requirements, designing, implementing, and testing.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title" style="margin-top: -10px;">
+                                <h4>Object Orientation, Algorithms, and Data Structures</h4>
+                            </div>
+                            <div class="module-details grade-2-1">
+                                <p>Understood the principles of good Object-Oriented Analysis and Design practices
+                                    using efficient data structures.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Database Systems</h4>
+                            </div>
+                            <div class="module-details grade-2-1">
+                                <p>Gained a basic understanding of database system technology, and a theoretical and 
+                                    practical knowledge of relational database systems</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Computational Mathematics</h4>
+                            </div>
+                            <div class="module-details grade-2-2">
+                                <p>Gives a broad grounding in mathematical and programming skills used in Computer 
+                                    Science via MATLAB.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Enhancing your Employability</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Gained an opportunity for exploring the concept of professionalism and importance of 
+                                    continuous professional and personal development.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modules">
+                        <div>
+                            <div class="module-title">
+                                <h4>Secure Communication Networks</h4>
+                            </div>
+                            <div class="module-details grade-1">
+                                <p>Introduced to the fundamental principles and emerging areas in communication networks 
+                                    covering protocols, implementation and issues of network security.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="university-year-projects" class="year-modules" style="display: none;">
+                    <h2>1st Year Projects</h2>
+                    <div class="project">
+                        <div class="project-module">
+                            <h2 class="project-module-title">Web Application</h2>
+                        </div>
+                        <h4>E-commerce Website</h4>
+                        <div class="project-module-info">
+                            <p>Developed a functional prototype of an E-commerce website.</p>
+                            <p>Features: checkout system, a shopping basket which allows users to add items, 
+                            view and edit the basket, and the ability to sort products by various criteria, 
+                            such as price. </p>
+                            <p>Used Python, HTML, CSS, SQL</p>
+                        </div>
+                    </div>
+                    <div class="project">
+                        <div class="project-module">
+                            <h2 class="project-module-title">Computational Thinking</h2>
+                        </div>
+                        <h4>Escape room game</h4>
+                        <div class="project-module-info">
+                            <p>Worked in a group to create a text-based adventure game</p>
+                            <p>Features: Multiple different items to collect, Player inventory has a certain capacity, 
+                                Leaderboard to show Player's time, Mini games within the escape room e.g hangman</p>
+                            <p>Used Python</p>
+                         </div>
+                    </div>
+                    <h2>2nd Year Projects</h2>
+                    <div class="project">
+                        <div class="project-module">
+                            <h2 class="project-module-title">Group Project</h2>
+                        </div>
+                        <h4>Volunteer Timetable Website</h4>
+                        <div class="project-module-info">
+                            <p>Worked on a project within a group to meet client requirements</p>
+                            <p>Features: Different users (Admin and Volunteer view) with unique abilities, Log in and 
+                                Sign up to ensure security, Profile page to allow customisation, Jobs page to 
+                                view all jobs in database.</p>
+                            <p>Used Python, HTML, CSS, SQL, JavaScript</p>
+                        </div>
+                    </div>
+                    <div class="project">
+                        <div class="project-module">
+                            <h2 class="project-module-title">Internet of Things</h2>
+                        </div>
+                        <h4>Smart alarm clock</h4>
+                        <div class="project-module-info">
+                            <p>Collaborated with others to create a IoT device</p>
+                            <p>Features: Buzzer to simulate alarm ringing, motion sensor placed above the alarm, servo motor for opening curtains, backlight display shows the time and light level, collected from the light sensor.</p>
+                            <p>Used Arduino, Raspberry Pi, Sensors, Actuators</p>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+            <hr>
+        </div>
+
+        <div class="previous-education">
+            <h1>Previous Education</h1>
+            <div class="previous-subjects">
+                <div class="gcse-box">
+                    <h1>GCSE</h1>
+                    <p>9 GCSE’s grade A – C <br> Maths(A), English (B)</p>
+                </div>
+                <div class="a-levels-box">
+                    <h1>A-Level</h1>
+                    <p>Psychology - A*</p>
+                    <p>History - A</p>
+                    <p>Criminology - A</p>
+                    <p>Welsh Baccalaureate - A</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
