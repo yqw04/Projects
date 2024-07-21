@@ -1,0 +1,102 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href= "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>List</title>
+    </head>
+
+    <body>
+        <div class="image-line"></div> 
+            <img src="{{ url_for('static', filename='images/image.png') }}" alt="Profile Image" class="background-image">
+            <div class="front-page">
+                <h1>Lists</h1>
+                <div class="hp-search-form">
+                    <div class="hp-search">
+                        <form action="" method="POST">
+                            {{ search_form.csrf_token }}
+                            <p>
+                                {{ search_form.search_query(class="hp-search-form-bar") }}
+                                {{ search_form.submit(class="hp-search-form-submit") }}
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <div class="image-line"></div>
+
+        <div class="hp-content">
+            <div class="hp-forms">
+                <div class="hp-forms-format">
+                    <div class="hp-sort-form">
+                        {{ wtf.quick_form(order_form, form_type="stacked") }}
+                    </div>
+                    <div class="hp-add-form">
+                        <form action="" method="POST">
+                            {{ new_list_form.csrf_token }}
+                            <p>
+                                {{ new_list_form.new_list.label }}
+                                {{ new_list_form.new_list (class="hp-add-form-bar")}}
+                                {{ new_list_form.submit(class="hp-add-form-submit") }}
+                            </p>
+                        </form>
+                    </div>
+                    <div class="hp-layout-form">
+                        <form method="POST">
+                            {{ layout_form.csrf_token }}
+                            {{ wtf.quick_form(layout_form, form_type="stacked") }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="hp-lists">
+                {% if layout == 'boxes' %}
+                <div class="hp-lists-layout-boxes" >
+                    <hr class="hp-lists-layout-boxes-hr">
+                    {% for list in lists %}
+                        <div class="hp-lists-boxes">
+                            <h4>{{list.name}}</h4>
+                            <hr class="hp-lists-boxes-hr">
+                            <div class="hp-forms-delete">
+                                <form method="post" action="{{ url_for('Single_List', list_id=list.id) }}">
+                                    <input type="submit" value="Add Item" class="admin-button">
+                                </form>
+                                <form method="post" action="{{ url_for('delete_list_item', id=list.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="submit" value="Delete Item" class="admin-button">
+                                </form>
+                            </div>  
+                            <p>Preview:</p>
+                            <ul class="hp-list-items">
+                                {% for item in list.items[:3] %}
+                                    <li>{{ item.name }}</li>
+                                {% endfor %}
+                            </ul>                          
+                        </div>
+                    {% endfor %}
+                </div>
+                {% elif layout == 'lines' %}
+                <div class="hp-lists-layout-lines">
+                    <hr class="hp-lists-layout-lines-hr">
+                    {% for list in lists %}
+                        <div class="hp-lists-lines">
+                            <h4>{{list.name}}</h4>
+                            <form method="post" action="{{ url_for('Single_List', list_id=list.id) }}">
+                                <input type="submit" value="Add Item" class="admin-button">
+                            </form>
+                            <form method="post" action="{{ url_for('delete_list_item', id=list.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                <input type="submit" value="Delete Item" class="admin-button">
+                            </form>
+                        </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
