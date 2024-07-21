@@ -1,0 +1,168 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href= "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>List - {{ lists.name }}</title>
+    </head>
+
+    <body style="background-color: #ece8e3;">
+        <a href="{{ url_for('home') }}" class="slp-back"><i class="material-icons">arrow_back</i></a>
+        <div class="slp-front-page">
+            <h1>{{ lists.name }}</h1>
+            <div class="slp-add-form">
+                <div class="slp-add">
+                    <form action="" method="POST">
+                        {{ new_item_form.csrf_token }}
+                        <p>
+                            {{ new_item_form.new_item(class="slp-add-form-bar") }}
+                            {{ new_item_form.submit(class="slp-add-form-submit") }}
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="slp-content">
+            <div class="slp-content-boxes">
+                <hr>
+                <div class="slp-forms">
+                    <hr>
+                    <div class="slp-search-form">
+                        <form action="" method="POST">
+                            {{ search_form.csrf_token }}
+                            <p> 
+                                {{ search_form.search_query.label }}
+                                {{ search_form.search_query(class="slp-search-form-bar") }}
+                                {{ search_form.submit(class="slp-search-form-submit") }}
+                            </p>
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="slp-sort-form">
+                        {{ wtf.quick_form(order_form, form_type="stacked") }}
+                    </div>
+                    <hr>
+                    <div class="slp-layout-form">
+                        <form action="" method="POST">
+                            {{ single_list_layout_form.csrf_token }}
+                            {{ wtf.quick_form(single_list_layout_form, form_type="stacked") }}
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="slp-list-form">
+                        <form method="post">
+                            {{ list_style_form.csrf_token }}
+                            {{ wtf.quick_form(list_style_form, form_type="stacked") }}
+                        </form>
+                    </div>
+                    <hr>
+                </div>
+                
+                <div class="slp-items">
+                    {% if layout == 'single-column' %}
+                    <div class="slp-items-single-box">
+                        <div class="slp-items-single">
+                            {% if list_style == 'decimal' %}
+                            <ol class="slp-items-single-decimal">
+                                {% for item in items %}
+                                <li>
+                                    <div>
+                                        <span>{{ item.name }}</span>
+                                        <form method="post" action="{{ url_for('delete_single_list_item', list_id=lists.id, id=item.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="submit" value="Delete Item" class="admin-button">
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ol>
+                            {% else %}
+                            <ul class="slp-items-single-default">
+                                {% for item in items %}
+                                <li>
+                                    <div>
+                                        <span>{{ item.name }}</span>
+                                        <form method="post" action="{{ url_for('delete_single_list_item', list_id=lists.id, id=item.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="submit" value="Delete Item" class="admin-button">
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                
+                    {% elif layout == 'two-column' %}
+                    <div class="slp-items-two-box">
+                        {% if list_style == 'decimal' %}
+                        <div class="slp-items-two">
+                            <ol class="slp-items-two-decimal">
+                                {% for item in items[:(items | length // 2)] %}
+                                <li>
+                                    <div>
+                                        <span>{{ item.name }}</span>
+                                        <form method="post" action="{{ url_for('delete_single_list_item', list_id=lists.id, id=item.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="submit" value="Delete Item" class="admin-button">
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        <div class="slp-items-two">
+                            <ol class="slp-items-two-decimal" start="{{ (items | length // 2) + 1 }}">
+                                {% for item in items[(items | length // 2):] %}
+                                <li>
+                                    <div>
+                                        <span>{{ item.name }}</span>
+                                        <form method="post" action="{{ url_for('delete_single_list_item', list_id=lists.id, id=item.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="submit" value="Delete Item" class="admin-button">
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        {% else %}
+                        <div class="slp-items-two">
+                            <ul class="slp-items-two-default">
+                                {% for item in items[:(items | length // 2)] %}
+                                <li>
+                                    <div>
+                                        <span>{{ item.name }}</span>
+                                        <form method="post" action="{{ url_for('delete_single_list_item', list_id=lists.id, id=item.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="submit" value="Delete Item" class="admin-button">
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="slp-items-two">
+                            <ul class="slp-items-two-default">
+                                {% for item in items[(items | length // 2):] %}
+                                <li>
+                                    <div>
+                                        <span>{{ item.name }}</span>
+                                        <form method="post" action="{{ url_for('delete_single_list_item', list_id=lists.id, id=item.id) }}" onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <input type="submit" value="Delete Item" class="admin-button">
+                                        </form>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body> 
+</html>
