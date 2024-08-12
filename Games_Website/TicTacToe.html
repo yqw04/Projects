@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>Tic Tac Toe</title>
+    </head>
+
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+
+        <div id="TTTgameContainer">
+            <h1>Tic Tac Toe</h1>
+            <div class="TTTbox">
+                <h2 id="TTTstatusText"></h2>
+                <div id="TTTcellContainer">
+                    <div cellIndex="0" class="TTTcell"></div>
+                    <div cellIndex="1" class="TTTcell"></div>
+                    <div cellIndex="2" class="TTTcell"></div>
+                    <div cellIndex="3" class="TTTcell"></div>
+                    <div cellIndex="4" class="TTTcell"></div>
+                    <div cellIndex="5" class="TTTcell"></div>
+                    <div cellIndex="6" class="TTTcell"></div>
+                    <div cellIndex="7" class="TTTcell"></div>
+                    <div cellIndex="8" class="TTTcell"></div>
+                </div>
+                <button id="TTTrestartBtn"><b>Restart</b></button>
+            </div>
+        </div>
+        <script src="games-js/TicTacToe.js"></script>
+    </body>
+</html>

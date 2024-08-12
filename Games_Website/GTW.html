@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>Guess the Word</title>
+
+    </head>
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+
+        <div class="GTW">
+            <h1 class="GTW-title">Guess the Word</h1>
+            <div class="GTW-container">
+                <h1>Enter the number of letters:</h1>
+                <input type="number" id="GTW-num-letters" placeholder="3, 4, 5, or 6">
+                <br>
+                <button onclick="startGame()" class="GTW-start">Start Game</button>
+                <div id="GTW-game-section">
+                    <h2>Guess the word:</h2>
+                    <input type="text" id="GTW-user-guess" placeholder="Your guess">
+                    <button onclick="makeGuess()">Guess</button>
+                    <p id="give-up-message">Type 'give up' to exit</p>
+                    <p id="GTW-feedback"></p>
+                    <div id="GTW-guess-history"></div>
+                </div>
+                <button id="GTW-play-again" onclick="restartGame()" >Play Again</button>
+            </div>
+        </div>
+        <script src="all-js/GTW.js"></script>
+    </body>
+</html>

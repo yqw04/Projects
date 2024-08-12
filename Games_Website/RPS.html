@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>Rock, Paper, Scissors</title>
+    </head>
+
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+
+        <div class="RPScontainer">
+            <h1>Rock, Paper, Scissors</h1>
+            <div class="RPSbox">
+                <div id="RPSresultDisplay"></div>
+                <div class="RPSscore">
+                    <div class="RPSscoreDisplay">
+                        Player Score: 
+                        <span id="RPSplayerScoreDisplay">0</span>
+                    </div>
+
+                    <div class="RPSscoreDisplay">
+                        Computer Score: 
+                        <span id="RPScomputerScoreDisplay">0</span>
+                    </div>
+                </div>
+
+                <div class="RPSdisplay">
+                    <div id="RPSplayerDisplay">
+                        PLAYER: 
+                        <span id="RPSplayerEmoji"></span>
+                    </div>
+            
+                    <div id="RPScomputerDisplay">
+                        COMPUTER: 
+                        <span id="RPScomputerEmoji"></span>
+                    </div>
+                </div>
+
+                <div class="RPSchoices">
+                    <button onclick="playGame('rock')">👊</button>
+                    <button onclick="playGame('paper')">✋</button>
+                    <button onclick="playGame('scissors')">✌️</button>
+                </div>
+                
+                <button id="RPSplay-again" onclick="restartGame()">Restart</button>
+            </div>
+            <script src="all-js/RPS.js"></script>  
+        </div>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>Math Quiz Game</title>
+    </head>
+
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+
+        <div class="MathsQ">
+            <h1 class="MathsQ-title">Math Quiz Game</h1>
+            <div class="MathsQ-container">
+                <h1>Select the type of questions:</h1>
+                <select id="MathsQ-question-type">
+                    <option value="Addition">Addition</option>
+                    <option value="Subtraction">Subtraction</option>
+                    <option value="Division">Division</option>
+                    <option value="Multiplication">Multiplication</option>
+                </select>
+                <p>Enter the range:</p>
+                <input type="number" id="MathsQ-start-range" placeholder="Start range">
+                <input type="number" id="MathsQ-end-range" placeholder="End range">
+                <br>
+                <button onclick="startGame()" class="MathsQ-start">Start Game</button>
+                <hr>
+                <div id="MathsQ-game-section">
+                    <p id="problem"></p>
+                    <input type="number" id="user-answer" placeholder="Your answer">
+                    <button id="submit-button" onclick="submitAnswer()">Submit</button>
+                    <p id="feedback"></p>
+                    <div class="MathsQ-reset">
+                        <button id="MathsQ-try-again" onclick="tryAgain()">Try Again</button>
+                        <button id="MathsQ-exit" onclick="restartGame()">Exit</button>
+                    </div>
+                </div>
+                <button id="MathsQ-play-again" onclick="restartGame()">Play Again</button>
+            </div>
+            <script src="all-js/Maths_quiz.js"></script>
+        </div>
+    </body>
+</html>

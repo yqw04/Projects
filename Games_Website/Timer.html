@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>Timer</title>
+    </head>
+    
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+
+        <h1 class="timer-title">Timer</h1>
+        <div class="timer-game-container">
+            <div id="timer-difficulty-selection">
+                <h1>Select the level of difficulty</h1>
+                <div class="timer-difficulty-all-buttons">
+                    <div class="timer-difficulty-button easy" data-difficulty="easy">
+                        <h2>Easy</h2>
+                        <div class="timer-difficulty-info" id="easy-description">
+                            In the Easy level, you need to stop the timer as close to the target time as possible.
+                            <button class="timer-proceedButton timer-hidden">Proceed to Game</button>
+                        </div>
+                    </div>
+
+                    <div class="timer-difficulty-button medium" data-difficulty="medium">
+                        <h2>Medium</h2>
+                        <div class="timer-difficulty-info" id="medium-description">
+                            In the Medium level, you need to stop the timer as close to the target time as possible.
+                            <button class="timer-proceedButton timer-hidden">Proceed to Game</button>
+                        </div>
+                    </div>
+
+                    <div class="timer-difficulty-button hard" data-difficulty="hard">
+                        <h2>Hard</h2>
+                        <div class="timer-difficulty-info" id="hard-description">
+                            In the Hard level, you need to stop the timer as close to the target time as possible.
+                            <button class="timer-proceedButton timer-hidden">Proceed to Game</button>
+                        </div>
+                    </div>
+
+                    <div class="timer-difficulty-button extreme" data-difficulty="extreme">
+                        <h2>Extreme</h2>
+                        <div class="timer-difficulty-info" id="extreme-description">
+                            In the Extreme level, you need to stop the timer as close to the target time as possible.
+                            <button class="timer-proceedButton timer-hidden">Proceed to Game</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timer-game-section timer-hidden">
+                <div class="timer-target-time"></div>
+                <div class="timer-current-time" id="timer-currentTime">0.00</div>
+                <button id="timer-startButton">Start</button>
+                <button id="timer-stopButton" disabled>Stop</button>
+                <button id="timer-backButton">Back</button>
+                <div id="timer-feedback"></div>
+                <button id="timer-restartButton">Restart</button>
+            </div>
+        </div>
+        <script src="all-js/Timer.js"></script>
+    </body>
+</html>

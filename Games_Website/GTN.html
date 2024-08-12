@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>Guess the Number</title>
+    </head>
+
+    <body style="margin: 0;">
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+
+        <div class="GTN">
+            <h1 class="GTN-title">Guess the Number</h1>
+            <div class="GTN-container">
+                <h1>Enter the range:</h1>
+                <input type="number" id="GTN-start-range" placeholder="Start range">
+                <input type="number" id="GTN-end-range" placeholder="End range">
+                <br>
+                <button onclick="startGame()" class="GTN-start">Start Game</button>
+                <div id="GTN-game-section">
+                    <p>What's your guess?</p>
+                    <input type="number" id="GTN-user-guess" placeholder="Your guess">
+                    <button onclick="makeGuess()">Guess</button>
+                    <p id="GTN-feedback"></p>
+                </div>
+                <button id="GTN-play-again" onclick="restartGame()">Play Again</button>
+            </div>
+        </div>
+
+        <script src="all-js/GTN.js"></script>
+    </body>
+</html>

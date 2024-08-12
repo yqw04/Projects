@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>Snake</title>
+    </head>
+
+    <body>
+        <nav id="nav">
+            <ul>
+                <li><a href="Home.html"><i class="material-icons">home</i>Home</a></li>
+                <li><a href="Games.html"><i class="material-icons">person</i>Games</a></li>
+            </ul>
+        </nav>
+        <h1 class="snake-title">Snake</h1>
+
+        <div class="snakebox">
+            <div id="snake-startScreen">
+                <h1>Welcome to Snake Game</h1>
+                <button onclick="gameStart()">Start Game</button>
+            </div>
+            <div id="snake-gameContainer" class="snake-gameContainer">
+                <canvas id="snakegameBoard" width="500" height="500"></canvas>
+                <div id="snakescoreText">0</div>
+                <button id="snakeresetBtn">Reset</button>
+                <button id="snakebackButton">Back</button>
+            </div>
+        </div>
+        <script src="all-js/Snake.js"></script>
+    </body>
+</html>
