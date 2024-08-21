@@ -28,7 +28,7 @@ class Item(db.Model): #shows logical structure of database
     
 class Sort(FlaskForm): #create web forms
     order = SelectField('Sort', choices = [('name', 'Name'), ('price', 'Price'), ('environmental impact', 'Environmental impact')])
-    submit = SubmitField('Select')
+    submit = SubmitField('Select', name='sort_submit')
 
 class AddBasket(FlaskForm):
     submit = SubmitField('Add to Basket')
@@ -43,6 +43,19 @@ class Checkout(FlaskForm):
 #app.route - used to map the specific URL with the associated function intended to perform some task
 @app.route('/', methods=['GET', 'POST']) #get data | send data to server
 def Home():
+    form = AddBasket()
+    new_arrivals = Item.query.filter(Item.id.in_([7, 8, 9])).all()  # Specific IDs for the homepage sections
+    popular = Item.query.filter(Item.id.in_([10, 11, 12])).all()  # Specific IDs for the homepage sections
+
+    if request.method == 'POST':  # Check if the form was submitted
+        item_id = request.form.get('item_id')
+        if item_id:
+            return add_to_basket(item_id)  # Call the function to add to the basket
+    return render_template('Home.html', new_arrivals=new_arrivals, popular=popular, form=form) #look for templates in the templates folder.
+
+#app.route - used to map the specific URL with the associated function intended to perform some task
+@app.route('/All', methods=['GET', 'POST']) #get data | send data to server
+def All():
     form = Sort() #for sorting
     order = Item.name #automatically in name order
     if form.validate_on_submit(): #checks if request is post, and data is accepted by all validators
@@ -51,12 +64,7 @@ def Home():
         elif form.order.data == 'environmental impact':
             order = Item.env_impact
     products = Item.query.order_by(order).all() #ordering all items in order
-    return render_template('Home.html', form = form, products = products) #look for templates in the templates folder.
-
-def Basket(): #create new basket if nothing in basket 
-    if 'Basket' not in session: #data that is required to be saved in the session is stored in a temporary directory on the server
-        session['Basket'] = [] #empty basket
-    return session['Basket']
+    return render_template('All.html', form = form, products = products) #look for templates in the templates folder.
 
 @app.route('/Product/<item_id>', methods = ['GET', 'POST']) #routing to id page
 def Product(item_id):
@@ -81,14 +89,29 @@ def Product(item_id):
 def price(Basketitem):
     total_price = 0
     for item in Basketitem: #looping over all items, adding the price
-        total_price = total_price + item['price'] 
+        total_price += item['price'] * item['quantity']
     return round(total_price, 2)
 
-def quantity(Basketitem):
-    amount = 0
-    for item in Basketitem: #looping over all items, adding the quantity
-        amount = amount + item['quantity']
-    return amount  
+def add_to_basket(item_id):
+    product = Item.query.get(item_id)  # Get the item by ID
+    basket = Basket()
+    item_dict = {
+        'id': product.id,
+        'name': product.name,
+        'price': product.price,
+        'env_impact': product.env_impact,
+        'description': product.description,
+        'image': product.image,
+        'quantity': product.quantity
+    }
+    basket.append(item_dict)  # Add item to the basket
+    session.modified = True  # Save session
+    return redirect('/cart')  # Redirect to the cart
+
+def Basket(): #create new basket if nothing in basket 
+    if 'Basket' not in session: #data that is required to be saved in the session is stored in a temporary directory on the server
+        session['Basket'] = [] #empty basket
+    return session['Basket']
 
 @app.route('/cart')
 def cart():
@@ -96,6 +119,21 @@ def cart():
     total = price(basket)
     amount = quantity(basket)
     return render_template('cart.html', basket = basket, total = total, amount = amount, len = len) 
+
+def quantity(Basketitem):
+    amount = 0
+    for item in Basketitem: #looping over all items, adding the quantity
+        amount = amount + item['quantity']
+    return amount  
+
+@app.route('/update_quantity', methods=['POST'])
+def update_quantity():
+    basket = Basket()
+    for i in range(len(basket)):
+        quantity = int(request.form.get(f'quantity_{i}'))
+        basket[i]['quantity'] = quantity
+    session.modified = True
+    return redirect(url_for('cart'))
 
 @app.route('/delete/<int:item>')
 def delete(item):
