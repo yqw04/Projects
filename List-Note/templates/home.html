@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <title>Organise</title>
+    </head>
+
+    <body>
+        <div class="home-page">
+            <h1>Select your Workspace</h1>
+            <p>Manage your tasks or jot down ideas, choose the tool that suits your needs.</p>
+            <div class="home-page-section">
+                <div class="home-page-box" id="list-box" data-url="/list">
+                    <img src="{{ url_for('static', filename='images/list.png') }}" alt="List">
+                    <h2>Lists</h2>
+                </div>
+                <div class="home-page-box" id="note-box" data-url="/note">
+                    <img src="{{ url_for('static', filename='images/note.png') }}" alt="Note">
+                    <h2>Notes</h2>
+                </div>
+            </div>
+            <button id="home-choose-btn"><b>Choose</b></button>
+        </div>
+    </body>
+</html>
