@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <div class="signup-bg">
+            <img src="{{ url_for('static', filename='images/signin.png') }}" alt="Signin background">
+        </div>
+
+        <div class="signup-logo">
+            <img src="{{ url_for('static', filename='images/Logo2.png') }}" alt="Logo">
+            <p>Welcome to MySleep! Sign up to discover the perfect pillow just for you.</p>
+        </div>
+
+        <div class="signup-box">
+            <div class="signup-section">
+                <div class="signup-section-img">
+                <img src="{{ url_for('static', filename='images/signinimg.png') }}" alt="Signin image">
+            </div>
+
+            <div class="signup-section-form">
+                <h1>Sign up</h1>
+                {% if exists %}
+                    <p class="signup-error">User already exists</p>
+                {% endif %}
+                
+                <form action="" method="POST">
+                    {{ form.csrf_token }}
+                    <p>
+                        {{ form.username.label }} <br> {{ form.username( class="signup-form") }}
+                    </p>
+                    <p>
+                        {{ form.password.label }} <br> {{ form.password( class="signup-form") }}
+                    </p>
+                    <p>
+                        {{ form.verify_password.label }} <br> {{ form.verify_password( class="signup-form") }}
+                    </p>
+                    <p>
+                    {{ form.submit(class="signup-submit") }}
+                    </p>
+                </form>
+
+                <a href="{{ url_for('login') }}">Login</a>
+            </div>
+        </div>
+    </body>
+    {% endblock %}
+</html>

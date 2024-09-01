@@ -4,7 +4,7 @@
 <html lang="eng">
     {% block head %}
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
         <script defer src="{{ url_for('static', filename='index.js') }}"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <title>MySleep</title>
@@ -20,6 +20,7 @@
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
                     <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
+                    <li class="nav-list"><a href="{{ url_for('logout') }}">Logout</a></li>
                 </div>
             </ul>
         </nav>
@@ -33,35 +34,34 @@
         {% if len(basket) != 0 %}
         <div class="cart">
             <div class="cart-container">
-                <form action="{{ url_for('update_quantity') }}" method="POST">
-                    <table>
-                        <thead>
-                            <tr class="cart-container-head">
-                                <th>Remove</th>
-                                <th>Product</th>
-                                <th>Name</th>
-                                <th>Quantity</th>
-                                <th>Total Price</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cart-container-body">
-                            {% for item in range(len(basket)) %}
-                            <tr class="cart-container-row">
-                                <td class="cart-container-data"><a href="{{ url_for('delete', item=item) }}"><i class="material-icons">delete</i></a></td>
-                                <td class="cart-container-data"><a href="{{ url_for('Product', item_id=basket[item]['id']) }}"><img src="{{ url_for('static', filename=basket[item].image) }}" alt="{{ basket[item]['name'] }} Image"></a></td>
-                                <td class="cart-container-data">{{ basket[item]['name'] }}</td>
-                                <td class="cart-container-data">
-                                    <input type="number" name="quantity_{{ item }}" value="{{ basket[item]['quantity'] }}" min="1" onchange="this.form.submit()">
-                                    <input type="hidden" name="item_index" value="{{ item }}">
-                                </td>
-                                <td class="cart-container-data">£{{ basket[item]['price'] * basket[item]['quantity'] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </form>
+                <table>
+                    <thead>
+                        <tr class="cart-container-head">
+                            <th>Remove</th>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart-container-body">
+                        {% for item in basket %}
+                        <tr class="cart-container-row">
+                            <td class="cart-container-data"><a href="{{ url_for('delete', item=item['id']) }}"><i class="material-icons">delete</i></a></td>
+                            <td class="cart-container-data"><a href="{{ url_for('Product', item_id=item['id']) }}"><img src="{{ url_for('static', filename=item.image) }}" alt="{{ item['name'] }} Image"></a></td>
+                            <td class="cart-container-data">{{ item['name'] }}</td>
+                            <td class="cart-container-data">
+                                <form action="{{ url_for('update_quantity', item=item['id']) }}" method="POST">
+                                    <input type="number" name="quantity" value="{{ item['quantity'] }}" min="1" onchange="this.form.submit()">
+                                    <input type="hidden" name="item_id" value="{{ item['id'] }}">
+                                </form>
+                            </td>
+                            <td class="cart-container-data">£{{ item['price'] * item['quantity'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-
             <div class="cart-payment">
                 <div>
                     <h1>Total</h1>

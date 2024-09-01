@@ -5,7 +5,7 @@
 <html lang="eng">
     {% block head %}
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
         <script defer src="{{ url_for('static', filename='index.js') }}"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <title>MySleep</title>
@@ -21,6 +21,7 @@
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
                     <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
+                    <li class="nav-list"><a href="{{ url_for('logout') }}">Logout</a></li>
                 </div>
             </ul>
         </nav>
@@ -34,9 +35,20 @@
                         <div class="all-form-container">
                             {{ wtf.quick_form(form) }}
                         </div>
+                        <form method="POST" action="{{ url_for('All') }}" class="all-form-container">
+                            {{ wtf.quick_form(category_form) }}
+                        </form>
                     </div>
                 </div>
+                {% if category == Also or category_form.category.data == extra or selected_category == blanket or selected_category == set%}
+                <div class="all-ad-more">
+                    <img src="{{ url_for('static', filename= 'images/advert1.png') }}" >
+                </div>
 
+                <div class="all-ad-more">
+                    <img src="{{ url_for('static', filename= 'images/advert2.png') }}">
+                </div>
+                {% else %}
                 <div class="all-ad">
                     <img src="{{ url_for('static', filename= 'images/advert1.png') }}">
                 </div>
@@ -44,6 +56,7 @@
                 <div class="all-ad">
                     <img src="{{ url_for('static', filename= 'images/advert2.png') }}">
                 </div>
+                {% endif %}
             </div>
 
             <div class="all-products">
@@ -56,8 +69,8 @@
                         <p>Envrionmental <br>impact: {{ item.env_impact }}</p>
                         <p>Price: £{{ item.price }}</p>
                         <td>
-                            <form action="/" method="POST">
-                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                            <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
+                                {{ form.hidden_tag() }}
                                 <button type="submit" class="btn btn-outline btn-success">Add to basket</button>
                             </form>
                         </td>
@@ -67,5 +80,9 @@
             </div>
         </div>  
     </body>
+
+    <footer class="footer">
+        <p> All images on this site are the property of their respective owners. These images have been used for coursework purposes only and are not intended for commercial use or to infringe on any copyrights.</p>
+    </footer>
     {% endblock %}
 </html>

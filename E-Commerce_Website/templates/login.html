@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <div class="login-bg">
+            <img src="{{ url_for('static', filename='images/Login.png') }}" alt="Login background">
+        </div>
+
+        <div class="login-logo">
+            <img src="{{ url_for('static', filename='images/Logo2.png') }}" alt="Logo">
+            <p>Welcome to MySleep! Log in to discover the perfect pillow just for you.</p>
+        </div>
+
+        <div class="login-box">
+            <div class="login-section">
+                <div class="login-section-img">
+                    <img src="{{ url_for('static', filename='images/loginimg.png') }}" alt="Login Image">
+                </div>
+
+                <div class="login-section-form">
+                    <h1>Login</h1>
+                    {% if error %}
+                    <p class="login-error">{{ error }}</p>
+                    {% endif %}
+                    <form action="" method="POST">
+                        {{ form.csrf_token }}
+                        <p>
+                        {{ form.username.label }} <br> {{ form.username( class="login-form") }}
+                        </p>
+                        <p>
+                            {{ form.password.label }} <br> {{ form.password( class="login-form") }}
+                        </p>
+                        <p>
+                        {{ form.submit( class="login-submit" ) }}
+                        </p>
+                    </form>
+                    <a href="{{ url_for('signup') }}"><p>Sign up</p></a>
+                </div>
+            </div>
+       </div>
+    </body>
+    {% endblock %}
+</html>
