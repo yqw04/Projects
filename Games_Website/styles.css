@@ -132,7 +132,7 @@ nav a {
     height: 4px; 
     background: rgb(224, 49, 184); 
     box-shadow: 0 0 10px rgb(224, 49, 184), 0 0 20px rgb(224, 49, 184), 0 0 30px rgb(224, 49, 184); 
-    margin: 50px 200px ; 
+    margin: 50px 200px; 
 }
 
 .classic-games {
@@ -203,14 +203,14 @@ nav a {
 }
 
 .classic-games-description p {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
     margin: 0px 20px; 
     line-height: 150%;
     font-size: 1vw;
 }
 
 .brain-games-title {
-    color:white; 
+    color: white; 
     text-align: center;
 }
 
@@ -236,7 +236,7 @@ nav a {
 .brain-games-sections {
     display: inline-block; 
     width: 250px;
-    height:418px;
+    height: 418px;
     border-radius: 10px; 
     margin: 0px 20px 20px 0px;
     overflow: hidden;
@@ -252,7 +252,7 @@ nav a {
 .brain-games-sections p {
     font-size: 14px; 
     margin: 10px 35px;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .brain-games-sections-size {
@@ -283,7 +283,7 @@ nav a {
 
 .more-games {
     text-align: center;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
     padding-bottom: 100px;;
 }
 
@@ -555,6 +555,11 @@ nav a {
 
 #snake-gameContainer {
     text-align: center;
+}
+
+#snake-personalBestText {
+    font-size: 30px;
+    margin-top: 10px;
 }
 
 #snakegameBoard {

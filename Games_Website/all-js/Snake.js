@@ -12,6 +12,8 @@ const snakeColor = "lightgreen";
 const snakeBorder = "black";
 const foodColor = "red";
 const unitSize = 25;
+const personalBestText = document.querySelector("#snake-personalBestText");
+let personalBest = localStorage.getItem('personalBest') || 0;
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -31,8 +33,8 @@ resetBtn.addEventListener("click", resetGame);
 backButton.addEventListener("click", goBack);
 
 function gameStart() {
-    startScreen.classList.add('hidden');
-    gameContainer.classList.remove('hidden');
+    startScreen.classList.add('snake-gameContainer');
+    gameContainer.classList.remove('snake-gameContainer');
     running = true;
     score = 0;
     xVelocity = unitSize;
@@ -51,6 +53,8 @@ function gameStart() {
     createFood();
     drawFood();
     nextTick();
+
+    personalBestText.textContent = `Personal Best: ${personalBest}`;
 }
 
 function nextTick(){
@@ -168,6 +172,7 @@ function displayGameOver(){
     ctx.textAlign = "center";
     ctx.fillText("Game Over! ", gameWidth / 2, gameHeight / 2);
     running = false;
+    updatePersonalBest();
 }
 
 function resetGame(){
@@ -185,7 +190,15 @@ function resetGame(){
 }
 
 function goBack() {
-    startScreen.classList.remove('hidden');
-    gameContainer.classList.add('hidden');
+    startScreen.classList.remove('snake-gameContainer');
+    gameContainer.classList.add('snake-gameContainer');
     running = false;
+}
+
+function updatePersonalBest() {
+    if (score > personalBest) {
+        personalBest = score;
+        localStorage.setItem('personalBest', personalBest);
+        personalBestText.textContent = `Personal Best: ${personalBest}`;
+    }
 }
