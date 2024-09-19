@@ -15,12 +15,23 @@
     <body>
         <nav id="nav">
             <ul>
-                <li><a class="navbar-brand" href="{{ url_for('Home') }}"><img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo"></a></li>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('Home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
                 <div class="nav-container">
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
-                    <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
-                    <li class="nav-list"><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
                 </div>
             </ul>
         </nav>
@@ -50,6 +61,7 @@
                 <table class="checkout-detail-table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Product</th>
                             <th>Name</th>
                             <th>Price</th>
@@ -58,6 +70,7 @@
                     {% for item in range(len(basket)) %}
                     
                     <tr class="checkout-detail-row">
+                        <td class="checkout-detail-data">{{basket[item]['quantity']}}x</td>
                         <td class="checkout-detail-data"><a href="{{ url_for('Product', item_id=basket[item]['id']) }}"><img src="{{ url_for('static', filename=basket[item].image) }}" alt="{{basket[item]['name']}} Image"></a></td>
                         <td class="checkout-detail-data">{{basket[item]['name']}}</td>
                         <td class="checkout-detail-data">£{{ basket[item]['price'] * basket[item]['quantity'] }}</td>

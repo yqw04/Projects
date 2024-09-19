@@ -1,0 +1,115 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="eng">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+
+        <nav id="nav">
+            <ul>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('Home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
+                <div class="nav-container">
+                    <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
+                    <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <div class="nav-behind"></div>
+
+        <div class="contact-image">
+            <img src="{{ url_for('static', filename='images/contactTitle.png') }}" alt="Contact Title Image">
+            <div class="contact-img-text">
+                <h1>Contact Us</h1>
+                <h3>Have some questions? Please fill out the form or get in touch with the methods below and we will get back to you promptly regarding your request. </h3>
+            </div>
+        </div>  
+
+        <div class="contact-box">
+            <div class="contact-container">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="contact-container-name">
+                        <div>
+                            {{ form.first_name.label(class="contact-container-fnamel") }}
+                            <br>
+                            {{ form.first_name(class="contact-container-fname", placeholder="First Name") }}
+                        </div>
+                        <div>
+                            {{ form.last_name.label( class="contact-container-lnamel" ) }}
+                            <br>
+                            {{ form.last_name(class="contact-container-lname", placeholder="Last Name") }}
+                        </div>
+                    </div>
+                    <div class="contact-container-email">
+                        {{ form.email.label(class="contact-container-emaill") }}
+                        <br>
+                        {{ form.email( class="contact-container-femail", placeholder="Email") }}
+                    </div>
+                    <div class="contact-container-subject">
+                        {{ form.subject.label(class="contact-container-subjectl") }}
+                        <br>
+                        {{ form.subject(class="contact-container-subjectf") }}
+                    </div>
+                    <div id="otherField" class="contact-container-other">
+                        {{ form.other.label(class="contact-container-otherl") }}
+                        <br>
+                        {{ form.other(class="contact-container-otherf", placeholder="Other...") }}
+                    </div>
+                    <div class="contact-container-message">
+                        {{ form.message.label( class="contact-container-messagel" ) }}
+                        <br>
+                        {{ form.message(class="contact-container-messagef", placeholder="Message") }}
+                    </div>
+                    <div class="contact-container-submit">
+                        {{ form.submit(class="contact-container-submitf") }}
+                    </div>
+                </form>
+            </div>
+
+            <div class="contact-options">
+                <div class="contact-options-box">
+                    <h3>CALL US</h3>
+                    <p>0123-456-7890</p>
+                    <h3>EMAIL</h3>
+                    <p>contact@MySleep.com</p>
+                    <h3>ADDRESS</h3>
+                    <p>123 Fake Address Road<br>Cardiff, United Kingdom</p>
+                </div>
+                <div class="contact-options-image">
+                    <img src="{{ url_for('static', filename='images/contact.png') }}" alt="Contact Image">
+                </div>
+            </div>
+        </div> 
+    </body>
+
+    <footer class="footer">
+        <p> All images on this site are the property of their respective owners. These images have been used for coursework purposes only and are not intended for commercial use or to infringe on any copyrights.</p>
+    </footer>
+    {% endblock %}
+</html>
+

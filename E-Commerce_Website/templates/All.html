@@ -16,69 +16,115 @@
     <body>
         <nav id="nav">
             <ul>
-                <li><a class="navbar-brand" href="{{ url_for('Home') }}"><img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo"></a></li>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('Home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
                 <div class="nav-container">
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
-                    <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
-                    <li class="nav-list"><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
                 </div>
             </ul>
         </nav>
 
         <div class="nav-behind"></div>
 
-        <div class="all">
-            <div class="all-box">
-                <div class="all-container">
-                    <div class="all-form">
-                        <div class="all-form-container">
-                            {{ wtf.quick_form(form) }}
-                        </div>
-                        <form method="POST" action="{{ url_for('All') }}" class="all-form-container">
-                            {{ wtf.quick_form(category_form) }}
-                        </form>
-                    </div>
-                </div>
-                {% if category == Also or category_form.category.data == extra or selected_category == blanket or selected_category == set%}
-                <div class="all-ad-more">
-                    <img src="{{ url_for('static', filename= 'images/advert1.png') }}" >
-                </div>
+        <div class="all-box">
+            <div class="all-form">
+                <h3 class="all-form-categories">Categories</h3>
+                {% for value, label in category_form.category.choices[:3] %}
+                <a href="{{ url_for('All', category=value) }}">
+                    <option class="all-form-option">{{ label }}</option>
+                </a>
+                {% endfor %}
+                {% for value, label in category_form.category.choices[3:6] %}
+                <a href="{{ url_for('All', category=value) }}">
+                    <option class="all-form-categories-label">- {{ label }}</option>
+                </a>
+                {% endfor %}
 
-                <div class="all-ad-more">
-                    <img src="{{ url_for('static', filename= 'images/advert2.png') }}">
-                </div>
-                {% else %}
+                <h3 class="all-form-header">New Arrivals</h3>
+                {% for value, label in category_form.category.choices[6::7] %}
+                <a href="{{ url_for('All', category=value) }}">
+                    <option class="all-form-option">{{ label }}</option>
+                </a>
+                {% endfor %}
+
+                <h3 class="all-form-header">Popular Now</h3>
+                {% for value, label in category_form.category.choices[7:] %}
+                <a href="{{ url_for('All', category=value) }}">
+                    <option class="all-form-option">{{ label }}</option>
+                </a>
+                {% endfor %}
+
+                <h4 class="all-form-header">Check out these other websites!</h4>
                 <div class="all-ad">
                     <img src="{{ url_for('static', filename= 'images/advert1.png') }}">
                 </div>
-
+        
                 <div class="all-ad">
                     <img src="{{ url_for('static', filename= 'images/advert2.png') }}">
                 </div>
-                {% endif %}
             </div>
 
-            <div class="all-products">
-                {% for item in products %}
-                <a href="{{ url_for('Product', item_id=item.id) }}" class="all-products-link">
-                    <div class="all-products-container">
-                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
-                        <hr>
-                        <p>{{ item.name }}</p>
-                        <p>Envrionmental <br>impact: {{ item.env_impact }}</p>
-                        <p>Price: £{{ item.price }}</p>
-                        <td>
-                            <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
-                                {{ form.hidden_tag() }}
-                                <button type="submit" class="btn btn-outline btn-success">Add to basket</button>
-                            </form>
-                        </td>
+            <div class="all-container">
+                <div class="all-container-banner">
+                    <img src="{{ url_for('static', filename= 'images/banner.png') }}">
+                    <div>
+                        <h2>Pillows for Everyday Life</h2>
                     </div>
-                </a>
-                {% endfor %}
+                </div>
+
+                <h1>View {{category}}</h1>
+                <div class="all-container-form">
+                    <form method="GET" action="{{ url_for('All') }}">
+                        {{ category_form.hidden_tag() }}
+                        {{ category_form.category.label }}
+                        <div class="all-container-dropdown">
+                            <input type="hidden" name="order" value="{{ request.args.get('order', 'name') }}">
+                            {{ category_form.category(onchange="this.form.submit();", class="all-container-dropdown-select" ) }}
+                        </div>
+                    </form>
+                    
+                    <form method="GET" action="{{ url_for('All') }}">
+                        {{ form.hidden_tag() }}
+                        {{ form.order.label }}:
+                        <div class="all-container-dropdown">
+                            <input type="hidden" name="category" value="{{ request.args.get('category', 'all') }}">
+                            {{ form.order(onchange="this.form.submit();", class="all-container-dropdown-select") }}
+                        </div>
+                    </form>
+                </div>
+
+                <div class="all-products">
+                    {% for item in products %}
+                    <a href="{{ url_for('Product', item_id=item.id) }}" class="all-products-link">
+                        <div class="all-products-container">
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                            <p>{{ item.name }}</p>
+                            <p>Price: £{{ item.price }}</p>
+                            <td>
+                                <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
+                                    {{ form.hidden_tag() }}
+                                    <button type="submit" class="btn btn-outline btn-success">Add to basket</button>
+                                </form>
+                            </td>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>  
+        </div>
     </body>
 
     <footer class="footer">

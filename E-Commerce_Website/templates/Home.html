@@ -6,7 +6,6 @@
     {% block head %}
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
-        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <title>MySleep</title>
     </head>
@@ -14,14 +13,26 @@
 
     {% block content %}
     <body>
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
         <nav id="nav">
             <ul>
-                <li><a class="navbar-brand" href="{{ url_for('Home') }}"><img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo"></a></li>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('Home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
                 <div class="nav-container">
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
-                    <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
-                    <li class="nav-list"><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
                 </div>
             </ul>
         </nav>
@@ -35,7 +46,6 @@
         <div class="title-image">
             <img src="{{ url_for('static', filename='images/TitleImage.png') }}" alt="Title Image">
             <div class="title-img-text">
-                <h1>Welcome {{user.username}}</h1>
                 <h1>Find the perfect pillow for you</h1>
                 <a href="{{ url_for('All') }}"><button class="title-img-button">Shop Now</button></a>
             </div>
@@ -57,6 +67,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="slideshow">
             <div class="slideshow-container">
                 <h1>Pillows make or break room designs, find the right one for you</h1>
@@ -181,7 +192,7 @@
             <h1>We also sell...</h1>
             <div class="Alsosell-container">
                 <div class="Alsosell-section">
-                    <a href="{{ url_for('All', category='Also') }}">
+                    <a href="{{ url_for('All', category='blanket') }}">
                         <img src="{{ url_for('static', filename='images/More-Blanket1.png') }}" alt="Blanket Image">
                         <div class="Alsosell-text">
                             <h2>Blankets</h2>
@@ -190,7 +201,7 @@
                 </div>
 
                 <div class="Alsosell-section2">
-                    <a href="{{ url_for('All', category='Also') }}">
+                    <a href="{{ url_for('All', category='sets') }}">
                         <img src="{{ url_for('static', filename='images/More-Set1.png') }}" alt="Set Image">
                         <div class="Alsosell-text">
                             <h2>Sets</h2>
@@ -199,7 +210,7 @@
                 </div>
                 
                 <div class="Alsosell-section">
-                    <a href="{{ url_for('All', category='Also') }}">
+                    <a href="{{ url_for('All', category='extra') }}">
                         <img src="{{ url_for('static', filename='images/More-Extra1.png') }}" alt="Extra Image">
                         <div class="Alsosell-text">
                             <h2>Extra</h2>

@@ -1,12 +1,11 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DateField, SelectField, PasswordField
+from wtforms import StringField, SubmitField, DateField, SelectField, PasswordField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, input_required, EqualTo
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_required, login_user, logout_user, current_user, UserMixin, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 app = Flask(__name__) #tells app where python module is
 app.config['SECRET_KEY'] = 'secret'
@@ -32,11 +31,10 @@ class Item(db.Model): #shows logical structure of database
     
 class Sort(FlaskForm): #create web forms
     order = SelectField('Sort', choices = [('name', 'Name'), ('price', 'Price'), ('environmental impact', 'Environmental impact')])
-    submit = SubmitField('Select', name = 'sort_submit')
 
 class CategoryForm(FlaskForm):
-    category = SelectField('Category', choices = [('all', 'All'), ('pillow', 'Pillow'), ('also', 'More')])
-    submit = SubmitField('Select')
+    category = SelectField('Category', choices = [('all', 'All'), ('pillow', 'Pillow'), ('more', 'More'),  ('blanket', 'Blanket'),  
+        ('sets', 'Sets'),  ('extra', 'Extra'),  ('new', 'New'),  ('popular', 'Popular')])
     
 class AddBasket(FlaskForm):
     submit = SubmitField('Add to Basket')
@@ -53,6 +51,7 @@ class SignupForm(FlaskForm):
     username = StringField('Username', validators = [input_required(), Length(1, 20)])
     password = PasswordField('Password', validators = [input_required()])
     verify_password = PasswordField('Verify password', validators = [input_required(), EqualTo('password', message = 'Passwords must match')])
+    student = BooleanField('Student')
     submit = SubmitField('Submit')
 
 # creates the login form to be used by routes
@@ -74,6 +73,7 @@ class User(UserMixin, db.Model):
     user_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     username = db.Column(db.String(16), index = True, unique = True)
     password_hash = db.Column(db.String(64))
+    student = db.Column(db.Boolean)
     basket = db.relationship('Item', secondary = 'user_basket_link', backref = db.backref('assigned_users', lazy = 'dynamic'))
     
     # gets the current users id
@@ -88,11 +88,15 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
     
+    def set_student(self, student):
+        self.student = student
+    
     # registeres a new user
     @staticmethod
-    def register(username, password):
+    def register(username, password, student):
         user = User(username = username)
         user.set_password(password)
+        user.set_student(student)
         db.session.add(user)
         db.session.commit()
         return user
@@ -100,6 +104,18 @@ class User(UserMixin, db.Model):
     # needed for getting users
     def __repr__(self):
         return '<User {0}>'.format(self.username)
+
+class ContactForm(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    subject = SelectField('Subject', choices = [('order placement', 'Order Placement'), ('shipment related', 'Shipment Related'), ('product related', 'Product Related'), 
+    ('payment related', 'Payment Related'), ('account related', 'Account Related'),('general enquiry', 'General Enquiry'), ('other', 'Other')])
+    other = StringField('Other', validators=[])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
 
 # route for the login page
 # the login page is the first page and so its URL is just blank
@@ -135,10 +151,11 @@ def signup():
 
         password_in = str(signup_form.password.data)
         username_in = str(signup_form.username.data)
+        student_in = bool(signup_form.student.data)
 
         if User.query.filter_by(username=username_in).first() is None:
             
-            User.register(username_in, password_in)
+            User.register(username_in, password_in, student_in)
             return redirect(url_for('login'))
 
         else:
@@ -174,35 +191,42 @@ def Home():
             return add_to_basket(item_id)  # Call the function to add to the basket
     return render_template('Home.html', new_arrivals = new_arrivals, popular = popular, form = form, user = user) # look for templates in the templates folder.
 
-# app.route - used to map the specific URL with the associated function intended to perform some task
 @app.route('/All', methods=['GET', 'POST']) # get data | send data to server
 def All():
+    user = db.session.query(User).filter_by(user_id = current_user.get_id()).first()
     category = request.args.get('category', 'all')
+    sort_order = request.args.get('order', 'name') 
+
     category_form = CategoryForm()
-
     form = Sort() # for sorting
-    order = Item.name # automatically in name order
-    if form.validate_on_submit(): # checks if request is post, and data is accepted by all validators
-        if form.order.data == 'price':
-            order = Item.price
-        elif form.order.data == 'environmental impact':
-            order = Item.env_impact
-
-    if category == 'Also':
-        products = Item.query.filter(Item.id.in_([13, 14, 15, 16, 17, 18, 19, 20, 21])).all()
+    category_form.process(category=category)
+    form.process(order=sort_order)
+    if sort_order == 'price':
+        order = Item.price
+    elif sort_order == 'environmental impact':
+        order = Item.env_impact
     else:
-        products = Item.query.order_by(order).all()
+        order = Item.name  # default in name order
 
-    if category_form.validate_on_submit():
-        selected_category = category_form.category.data  # Get the selected category
-        if selected_category == 'all':
-            products = Item.query.order_by(order).all()
-        elif selected_category == 'pillow':
-            products = Item.query.filter(Item.id.in_([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])).order_by(order).all()
-        elif selected_category == 'also':
-            products = Item.query.filter(Item.id.in_([13, 14, 15, 16, 17, 18, 19, 20, 21])).order_by(order).all()
+    if category == 'more' :
+        products = Item.query.filter(Item.id.in_([13, 14, 15, 16, 17, 18, 19, 20, 21])).order_by(order).all()
+    elif category == 'pillow':
+        products = Item.query.filter(Item.id.in_([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])).order_by(order).all()
+    elif category == 'blanket':
+        products = Item.query.filter(Item.id.in_([13, 14, 15])).order_by(order).all()
+    elif category == 'sets':
+        products = Item.query.filter(Item.id.in_([16, 17, 18])).order_by(order).all()
+    elif category == 'extra':
+        products = Item.query.filter(Item.id.in_([19, 20, 21])).order_by(order).all()
+    elif category == 'new':
+        products = Item.query.filter(Item.id.in_([7, 8, 9])).order_by(order).all()
+    elif category == 'popular':
+        products = Item.query.filter(Item.id.in_([10, 11, 12])).order_by(order).all()
+    else:
+        products = Item.query.order_by(order).all() 
 
-    return render_template('All.html', form = form, products = products, category_form = category_form) # look for templates in the templates folder.
+    return render_template('All.html', form=form, products=products, category_form=category_form, category = category, user=user)
+
 
 # Update the Product route to correctly handle adding items to the basket.
 @app.route('/Product/<item_id>', methods = ['GET', 'POST'])
@@ -221,7 +245,6 @@ def Product(item_id):
 @login_required
 def add_to_basket(item_id):
     user_id = current_user.get_id()
-    print(f"Adding item {item_id} to basket for user {user_id}")
     
     # Check if the item already exists in the basket
     existing_item = UserBasketLink.query.filter_by(user_id = user_id, id = item_id).first()
@@ -229,12 +252,10 @@ def add_to_basket(item_id):
     if existing_item:
         # If the item exists, increase the quantity
         existing_item.quantity += 1
-        print(f"Item {item_id} already in basket. New quantity: {existing_item.quantity}")
     else:
         # If the item does not exist, create a new entry
         new_item = UserBasketLink(user_id = user_id, id = item_id, quantity = 1)
         db.session.add(new_item)
-        print(f"Item {item_id} added to basket with quantity 1")
 
     # Commit the changes
     db.session.commit()
@@ -243,11 +264,9 @@ def add_to_basket(item_id):
 
 def Basket():
     current_user_id = current_user.get_id()
-    print(f"Current User ID: {current_user_id}")
     
     # Check what items and links are present in the database
     basket_items = db.session.query(Item, UserBasketLink).join(UserBasketLink).filter(UserBasketLink.user_id == current_user_id).all()
-    print(f"Basket Items: {basket_items}")
 
     basket = []
     for item, link in basket_items:
@@ -261,7 +280,6 @@ def Basket():
             'quantity': link.quantity 
         }
         basket.append(basket_item)
-        print(f"Added to basket: {basket_item}")
 
     return basket
 
@@ -270,7 +288,8 @@ def cart():
     basket = Basket() # items in basket
     total = price(basket)
     amount = quantity(basket)
-    return render_template('cart.html', basket = basket, total = total, amount = amount, len = len) 
+    user = db.session.query(User).filter_by(user_id = current_user.get_id()).first()
+    return render_template('cart.html', basket = basket, total = total, amount = amount, len = len, user = user) 
 
 def price(Basketitem):
     total_price = 0
@@ -305,12 +324,11 @@ def delete(item):
     if link:
         db.session.delete(link)
         db.session.commit()
-    else:
-        print(f'Item with ID {item} not found for user {current_user.user_id}')
     return redirect(url_for('cart'))
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
+    user = db.session.query(User).filter_by(user_id = current_user.get_id()).first()
     form = Checkout()
     basket = Basket()
     total = price(basket)
@@ -324,13 +342,32 @@ def checkout():
             error = "please add required amount"
         else:
             return redirect(url_for('success'))
-    return render_template('checkout.html', total = total, form = form, error = error, basket = basket, len = len)
+    return render_template('checkout.html', total = total, form = form, error = error, basket = basket, len = len, user=user)
 
 @app.route('/success')
 def success():
+    user = db.session.query(User).filter_by(user_id = current_user.get_id()).first()
     basket = Basket()
     total = price(basket)
-    return render_template('success.html', basket = basket, total = total, len = len)
+    return render_template('success.html', basket = basket, total = total, len = len, user=user)
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    user = db.session.query(User).filter_by(user_id = current_user.get_id()).first()
+    form = ContactForm()
+    if form.validate_on_submit():
+        # Handle the form submission
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        email = form.email.data
+        subject = form.subject.data
+        message = form.message.data
+
+        # Add logic to handle or store the contact form data
+        flash('Message sent successfully!', 'success')
+        return redirect(url_for('contact'))  # Redirect after successful submission
+
+    return render_template('contact.html', form=form, user=user)
 
 def insert_items():
     # Check if the database already contains items

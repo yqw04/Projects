@@ -44,6 +44,9 @@
                         {{ form.verify_password.label }} <br> {{ form.verify_password( class="signup-form") }}
                     </p>
                     <p>
+                        {{ form.student.label }} {{ form.student() }}
+                    </p>
+                    <p>
                     {{ form.submit(class="signup-submit") }}
                     </p>
                 </form>

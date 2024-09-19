@@ -15,11 +15,23 @@
     <body>
         <nav id="nav">
             <ul>
-                <li><a class="navbar-brand" href="{{ url_for('Home') }}"><img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo"></a></li>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('Home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
                 <div class="nav-container">
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
-                    <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
                 </div>
             </ul>
         </nav>

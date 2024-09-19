@@ -15,12 +15,23 @@
     <body>
         <nav id="nav">
             <ul>
-                <li><a class="navbar-brand" href="{{ url_for('Home') }}"><img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo"></a></li>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('Home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
                 <div class="nav-container">
                     <li class="nav-list"><a href="{{ url_for('Home') }}">Home</a></li>
                     <li class="nav-list"><a href="{{ url_for('All') }}">Shop</a></li>
-                    <li class="nav-list"><a href="{{ url_for('cart') }}">Basket</a></li>
-                    <li class="nav-list"><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
                 </div>
             </ul>
         </nav>
@@ -28,7 +39,7 @@
         <div class="nav-behind"></div>
 
         <div class="cart-head">
-            <h4>Free delivery when you spend £45</h4>
+            <h4>Free delivery when you spend £45 | Extra 10% off for Students</h4>
         </div>
 
         {% if len(basket) != 0 %}
@@ -70,7 +81,20 @@
                         <span>Subtotal:</span>
                         <span>£{{ total }}</span>
                     </h3>
-            
+                    
+                    {% if user.student %}
+                        {% set student_discount = (total/10) | round(2) %}
+                    {% else %}
+                        {% set student_discount = 0 %}
+                    {% endif %}
+                    
+                    {% if user.student %}
+                    <h3>
+                        <span>Student Discount:</span>
+                        <span>£{{ student_discount }}</span>
+                    </h3>
+                    {% endif %} 
+
                     {% if total < 45 %}
                         {% set delivery_fee = 4.99 %}
                     {% else %}
@@ -86,12 +110,10 @@
                     {% else %}
                     <p>You get free delivery!</p>
                     {% endif %}
-
                     <hr>
-            
                     <h3>
                         <span>Total:</span>
-                        <span>£{{ (total + delivery_fee) | round(2) }}</span>
+                        <span>£{{ ((total-student_discount) + delivery_fee) | round(2) }}</span>
                     </h3>
                     
                     {% if total != 0 %}
