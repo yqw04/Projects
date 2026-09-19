@@ -1,0 +1,76 @@
+{% extends "bootstrap/base.html" %}
+ 
+<!DOCTYPE html>
+<html lang="eng">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <nav id="nav">
+            <ul>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('finish_purchase') }}" class="success-nav">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                         <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
+            </ul>
+        </nav>
+        
+        <div class="nav-behind"></div>
+       
+        <div class="success">
+            <i class="material-icons" >check_circle</i>
+            <h1>Purchase Successful</h1>
+            <hr>
+            {% if total < 45 %}
+                {% set delivery_fee = 4.99 %}
+            {% else %}
+                {% set delivery_fee = 0 %}
+            {% endif %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                {% for item in range(len(basket)) %}
+                <tr class="success-row">
+                    <td class="success-data"><a href="{{ url_for('Product', item_id=basket[item]['id']) }}"><img src="{{ url_for('static', filename=basket[item].image) }}" alt="{{basket[item]['name']}} Image"></a></td>
+                    <td class="success-data">{{basket[item]['name']}}</td>
+                    <td class="success-data">£{{ basket[item]['price'] * basket[item]['quantity'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <hr>
+            {% if total < 45 %}
+            <h3>
+                <span>Delivery fee:</span>
+                <span>£{{ delivery_fee }}</span>
+            </h3>
+            <hr>
+            {% endif %}
+            
+            <h1>Total Price: £{{ (total + delivery_fee) | round(2) }}</h1>
+            <a href="{{ url_for('finish_purchase') }}">
+                <button type="button">Return Home</button>
+            </a>
+         </div>
+    </body>
+{% endblock %}
+</html>

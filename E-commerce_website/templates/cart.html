@@ -1,0 +1,138 @@
+{% extends "bootstrap/base.html" %}
+
+<!DOCTYPE html>
+<html lang="eng">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <nav id="nav">
+            <ul>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">{{user.username}}'s Basket</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </div>
+                
+                <div class="nav-container">
+                    <li class="nav-list"><a href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-list"><a href="{{ url_for('shop') }}">Shop</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <div class="nav-behind"></div>
+
+        <div class="cart-head">
+            <h4>Free delivery when you spend £45 | Extra 10% off for Students</h4>
+        </div>
+
+        {% if len(basket) != 0 %}
+        <div class="cart">
+            <div class="cart-container">
+                <table>
+                    <thead>
+                        <tr class="cart-container-head">
+                            <th>Remove</th>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart-container-body">
+                        {% for item in basket %}
+                        <tr class="cart-container-row">
+                            <td class="cart-container-data"><a href="{{ url_for('delete', item=item['id']) }}"><i class="material-icons">delete</i></a></td>
+                            <td class="cart-container-data"><a href="{{ url_for('Product', item_id=item['id']) }}"><img src="{{ url_for('static', filename=item.image) }}" alt="{{ item['name'] }} Image"></a></td>
+                            <td class="cart-container-data">{{ item['name'] }}</td>
+                            <td class="cart-container-data">
+                                <form action="{{ url_for('update_quantity', item=item['id']) }}" method="POST">
+                                    <input type="number" name="quantity" value="{{ item['quantity'] }}" min="1" onchange="this.form.submit()">
+                                    <input type="hidden" name="item_id" value="{{ item['id'] }}">
+                                </form>
+                            </td>
+                            <td class="cart-container-data">£{{ item['price'] * item['quantity'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="cart-payment">
+                <div>
+                    <h1>Total</h1>
+                    <hr>
+                    <h3>
+                        <span>Subtotal:</span>
+                        <span>£{{ total }}</span>
+                    </h3>
+                    
+                    {% if user.student %}
+                        {% set student_discount = (total/10) | round(2) %}
+                    {% else %}
+                        {% set student_discount = 0 %}
+                    {% endif %}
+                    
+                    {% if user.student %}
+                    <h3>
+                        <span>Student Discount:</span>
+                        <span>£{{ student_discount }}</span>
+                    </h3>
+                    {% endif %} 
+
+                    {% if total < 45 %}
+                        {% set delivery_fee = 4.99 %}
+                    {% else %}
+                        {% set delivery_fee = 0 %}
+                    {% endif %}
+            
+                    {% if total < 45 %}
+                    <h3>
+                        <span>Delivery fee:</span>
+                        <span>£{{ delivery_fee }}</span>
+                    </h3>
+                    <p>Spend over £45 for free delivery</p>
+                    {% else %}
+                    <p>You got free delivery!</p>
+                    {% endif %}
+                    <hr>
+                    <h3>
+                        <span>Total:</span>
+                        <span>£{{ ((total-student_discount) + delivery_fee) | round(2) }}</span>
+                    </h3>
+                    
+                    {% if total != 0 %}
+                    <a href="{{ url_for('checkout')}}">
+                        <button class="cart-payment-checkout">
+                            Checkout
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="cart-none">
+            <h1>Nothing in basket...</h1>
+            <i class="material-icons">add_shopping_cart</i>
+            <p>Click <a href="{{ url_for('shop') }}">here</a> to go to our products page and find something just for you!</p>
+        </div>
+        {% endif %}     
+    </body>
+    {% endblock %} 
+</html>

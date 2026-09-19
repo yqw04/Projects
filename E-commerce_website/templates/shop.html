@@ -1,0 +1,136 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="eng">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+    
+    {% block content %}
+    <body>
+        <nav id="nav">
+            <ul>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">
+                            {% if current_user.is_authenticated %} 
+                                {{ current_user.username }}'s Basket
+                            {% else %}
+                                Basket
+                            {% endif %}
+                        </a>
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('logout') }}">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}">Sign In</a>
+                        {% endif %}
+                    </li>
+                </div>
+                
+                <div class="nav-container">
+                    <li class="nav-list"><a href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-list"><a href="{{ url_for('shop') }}">Shop</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <div class="nav-behind"></div>
+
+        <div class="shop-box">
+            <div class="shop-form">
+                <h3 class="shop-form-categories">Categories</h3>
+                {% for value, label in category_form.category.choices[:3] %}
+                <a href="{{ url_for('shop', category=value) }}">
+                    <p class="shop-form-option">{{ label }}</p>
+                </a>
+                {% endfor %}
+                {% for value, label in category_form.category.choices[3:6] %}
+                <a href="{{ url_for('shop', category=value) }}">
+                    <p class="shop-form-categories-label">- {{ label }}</p>
+                </a>
+                {% endfor %}
+
+                <h3 class="shop-form-header">New Arrivals</h3>
+                {% for value, label in category_form.category.choices[6::7] %}
+                <a href="{{ url_for('shop', category=value) }}">
+                    <p class="shop-form-option">{{ label }}</p>
+                </a>
+                {% endfor %}
+
+                <h3 class="shop-form-header">Popular Now</h3>
+                {% for value, label in category_form.category.choices[7:] %}
+                <a href="{{ url_for('shop', category=value) }}">
+                    <p class="shop-form-option">{{ label }}</p>
+                </a>
+                {% endfor %}
+
+            </div>
+
+            <div class="shop-container">
+                <div class="shop-container-banner">
+                    <img src="{{ url_for('static', filename= 'images/banner.png') }}">
+                    <div>
+                        <h2>Pillows for Everyday Life</h2>
+                    </div>
+                </div>
+
+                <h1>View {{category}}</h1>
+                <div class="shop-container-form">
+                    <form method="GET" action="{{ url_for('shop') }}">
+                        {{ category_form.hidden_tag() }}
+                        {{ category_form.category.label }}
+                        <div class="shop-container-dropdown">
+                            <input type="hidden" name="order" value="{{ request.args.get('order', 'name') }}">
+                            {{ category_form.category(onchange="this.form.submit();", class="shop-container-dropdown-select") }}
+                        </div>
+                    </form>
+                    
+                    <form method="GET" action="{{ url_for('shop') }}">
+                        {{ form.hidden_tag() }}
+                        {{ form.order.label }}:
+                        <div class="shop-container-dropdown">
+                            <input type="hidden" name="category" value="{{ request.args.get('category', 'all') }}">
+                            {{ form.order(onchange="this.form.submit();", class="shop-container-dropdown-select") }}
+                        </div>
+                    </form>
+                </div>
+
+                <div class="shop-products">
+                    {% for item in products %}
+                    <a href="{{ url_for('Product', item_id=item.id) }}" class="shop-products-link">
+                        <div class="shop-products-container">
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                            <p>{{ item.name }}</p>
+                            <p>Price: £{{ item.price }}</p>
+                            <td>
+                                <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
+                                    {{ form.hidden_tag() }}
+                                    <button type="submit" class="btn btn-outline btn-success">Add to basket</button>
+                                </form>
+                            </td>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <footer class="footer">
+        <p> All images on this site are the property of their respective owners. These images have been used for coursework purposes only and are not intended for commercial use or to infringe on any copyrights.</p>
+    </footer>
+    {% endblock %}
+</html>

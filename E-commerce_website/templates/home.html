@@ -1,0 +1,250 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="eng">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <nav id="nav">
+            <ul>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">
+                            {% if current_user.is_authenticated %} 
+                                {{ current_user.username }}'s Basket
+                            {% else %}
+                                Basket
+                            {% endif %}
+                        </a>
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('logout') }}">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}">Sign In</a>
+                        {% endif %}
+                    </li>
+                </div>
+                
+                <div class="nav-container">
+                    <li class="nav-list"><a href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-list"><a href="{{ url_for('shop') }}">Shop</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <div class="nav-behind"></div>
+
+        <div class="title-head">
+            <h4>A Pillow for Every Dream: Explore Our Diverse Collection, Designed to Suit Every Style and Sleep Need.</h4>
+        </div>
+
+        <div class="title-image">
+            <img src="{{ url_for('static', filename='images/TitleImage.png') }}" alt="Title Image">
+            <div class="title-img-text">
+                <h1>Find the perfect pillow for you</h1>
+                <a href="{{ url_for('shop') }}"><button class="title-img-button">Shop Now</button></a>
+            </div>
+        </div>    
+
+        <div class="title-foot">
+            <div class="title-foot-container">
+                <div class="title-foot-section">
+                    <i class="material-icons">flight</i>
+                    <h4>We offer worldwide shipping</h4>
+                </div>
+                <div class="title-foot-section">
+                    <i class="material-icons">schedule</i>
+                    <h4>24 hour Customer Support</h4>
+                </div>
+                <div class="title-foot-section">
+                    <i class="material-icons">arrow_back</i>
+                    <h4>Returns and Exchanges</h4>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slideshow">
+            <div class="slideshow-container">
+                <h1>Pillows make or break room designs, find the right one for you</h1>
+                <div class="mySlides fade">
+                    <img src="{{ url_for('static', filename='images/slider1.png') }}" alt="Slider Image 1">
+                </div>
+                
+                <div class="mySlides fade">
+                    <img src="{{ url_for('static', filename='images/slider2.png') }}" alt="Slider Image 2">
+                </div>
+                
+                <div class="mySlides fade">
+                    <img src="{{ url_for('static', filename='images/slider3.png') }}" alt="Slider Image 3">
+                </div>
+            </div>
+            <br>
+            <div class="slideshow-dots">
+                <span class="dot"></span> 
+                <span class="dot"></span> 
+                <span class="dot"></span> 
+            </div>
+        </div>
+
+        <div class="new-products">
+            <h1>New Products</h1>
+            <div class="new-products-container">
+                {% set item = new_arrivals[0] %}
+                <div class="new-products-section">
+                    <div>
+                        <a href="{{ url_for('Product', item_id=item.id) }}" class="new-product-img">
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                        </a>
+                    </div>
+                    <div>
+                        <h1>{{ item.name }}</h1>
+                        <p>Price: £{{ item.price }}</p>
+                    </div>
+                </div>
+
+                {% set item = new_arrivals[1] %}
+                <div class="new-products-section2">
+                    <div>
+                        <h1>{{ item.name }}</h1>
+                        <p>Price: £{{ item.price }}</p>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('Product', item_id=item.id) }}" class="new-product-img">
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                        </a>
+                    </div>                   
+                </div>
+                
+                {% set item = new_arrivals[2] %}
+                <div class="new-products-section">
+                    <div>
+                        <a href="{{ url_for('Product', item_id=item.id) }}" class="new-product-img">
+                            <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                        </a>
+                    </div>
+                    <div>
+                        <h1>{{ item.name }}</h1>
+                        <p>Price: £{{ item.price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popular-products">
+            <h1>Popular Products</h1>
+            <div class="popular-products-container">
+                {% set item = popular[0] %}
+                <a href="{{ url_for('Product', item_id=item.id) }}">
+                    <div class="popular-products-section">
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                        <hr>
+                        <h1>{{ item.name }}</h1>
+                        <p>Price: £{{ item.price }}</p>
+                        <td>
+                            <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
+                                {{ form.hidden_tag() }}
+                                {{ form.submit() }}
+                            </form>
+                        </td>
+                    </div>
+                </a>
+
+                {% set item = popular[1] %}
+                <a href="{{ url_for('Product', item_id=item.id) }}">
+                    <div class="popular-products-section">
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                        <hr>
+                        <h1>{{ item.name }}</h1>
+                        <p>Price: £{{ item.price }}</p>
+                        <td>
+                            <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
+                                {{ form.hidden_tag() }}
+                                {{ form.submit() }}
+                            </form>
+                        </td>
+                    </div>
+                </a>
+
+                {% set item = popular[2] %}
+                <a href="{{ url_for('Product', item_id=item.id) }}">
+                    <div class="popular-products-section">
+                        <img src="{{ url_for('static', filename=item.image) }}" alt="{{ item.name }} Image">
+                        <hr>
+                        <h1>{{ item.name }}</h1>
+                        <p>Price: £{{ item.price }}</p>
+                        <td>
+                            <form action="{{ url_for('add_to_basket', item_id=item.id) }}" method="POST">
+                                {{ form.hidden_tag() }}
+                                {{ form.submit() }}
+                            </form>
+                        </td>
+                    </div>
+                </a>
+            </div>     
+        </div>  
+
+        <div class="Alsosell">
+            <h1>We also sell...</h1>
+            <div class="Alsosell-container">
+                <div class="Alsosell-section">
+                    <a href="{{ url_for('shop', category='blanket') }}">
+                        <img src="{{ url_for('static', filename='images/More-Blanket1.png') }}" alt="Blanket Image">
+                        <div class="Alsosell-text">
+                            <h2>Blankets</h2>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="Alsosell-section2">
+                    <a href="{{ url_for('shop', category='sets') }}">
+                        <img src="{{ url_for('static', filename='images/More-Set1.png') }}" alt="Set Image">
+                        <div class="Alsosell-text">
+                            <h2>Sets</h2>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="Alsosell-section">
+                    <a href="{{ url_for('shop', category='extra') }}">
+                        <img src="{{ url_for('static', filename='images/More-Extra1.png') }}" alt="Extra Image">
+                        <div class="Alsosell-text">
+                            <h2>Extra</h2>
+                        </div>
+                    </a>
+                </div>
+            </div>  
+        </div>
+
+        <div id="ad1" class="fake-ad">
+            <button id="close-ad" class="close-ad">&times;</button>
+
+            <img src="{{ url_for('static', filename= 'images/advert1.png') }}">
+        </div>
+
+        <div id="ad2" class="fake-ad">
+            <button id="close-ad" class="close-ad">&times;</button>
+            <img src="{{ url_for('static', filename= 'images/advert2.png') }}">
+         </div>
+
+    </body>
+
+    <footer class="footer">
+        <p> All images on this site are the property of their respective owners. These images have been used for coursework purposes only and are not intended for commercial use or to infringe on any copyrights.</p>
+    </footer>
+    {% endblock %}
+</html>

@@ -1,0 +1,83 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="eng">
+    {% block head %}
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+        <script defer src="{{ url_for('static', filename='index.js') }}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>MySleep</title>
+    </head>
+    {% endblock %}
+
+    {% block content %}
+    <body>
+        <nav id="nav">
+            <ul>
+                <div class="nav-top">
+                    <li class="nav-logo">
+                        <a href="{{ url_for('home') }}">
+                            <img id="logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Logo">
+                        </a>
+                    </li>
+                    
+                    <li class="nav-personal">
+                        <a href="{{ url_for('cart') }}">
+                            {% if current_user.is_authenticated %} 
+                                {{ current_user.username }}'s Basket
+                            {% else %}
+                                Basket
+                            {% endif %}
+                        </a>
+                        {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('logout') }}">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}">Sign In</a>
+                        {% endif %}
+                    </li>
+                </div>
+                
+                <div class="nav-container">
+                    <li class="nav-list"><a href="{{ url_for('home') }}">Home</a></li>
+                    <li class="nav-list"><a href="{{ url_for('shop') }}">Shop</a></li>
+                    <li class="nav-list"><a href="{{ url_for('contact') }}">Contact</a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <div class="nav-behind"></div>
+
+        <div class="single">
+            <div class="single-product">
+                <hr>
+                <h1>{{ Product.name }}  </h1>
+                <hr>
+            </div>
+            
+            <div class="single-image">
+                <img src="{{ url_for('static', filename=Product.image) }}" alt="{{ Product.name }} Image">
+            </div>
+            
+            <div class="single-desc">
+                <hr>
+                <h3>Price</h3>
+                <h2>£{{Product.price}}</h2>
+                <hr>
+                <h3>Environmental Impact</h3>
+                <h2>{{Product.env_impact}}</h2>
+                <hr>
+                <p>{{Product.description}}</p>
+                <hr>
+                <div class="single-form">
+                    <form action="{{ url_for('add_to_basket', item_id=Product.id) }}" method="POST">
+                        {{ form.hidden_tag() }}
+                        {{ form.submit() }}
+                    </form>
+                </div>
+            </div>
+        </div>      
+    </body>
+    {% endblock %}
+</html>
